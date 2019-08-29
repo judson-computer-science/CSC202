@@ -1,0 +1,10 @@
+Script started on Thu Aug 29 17:41:28 2019
+[?1034hbash-3.2$ ./a.out
+The length of element [testing] is 7
+The length of element [hello] is 5
+The length of element [good-bye] is 8
+The length of element [CSC202] is 6
+The length of element [is fun!!] is 8
+bash-3.2$ exit
+
+Script done on Thu Aug 29 17:41:38 2019
