@@ -1,0 +1,14 @@
+Script started on Thu Aug 29 17:45:27 2019
+[?1034hbash-3.2$ ./a.out
+string1.length is 19, string1.buff is [initial string val]
+string1.length is 16, string1.buff is [new string value]
+Enter a String up to 30 characters
+tesi ting
+string1.length is 7, string1.buff is [testing]
+string_ptr->length is 16, string_ptr->buff is [new string value]
+Enter a String up to 30 characters
+or  working
+string_ptr->length is 7, string_ptr->buff is [working]
+bash-3.2$ exit
+
+Script done on Thu Aug 29 17:45:45 2019
