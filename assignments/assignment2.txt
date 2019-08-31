@@ -1,0 +1,83 @@
+CSC202 - Fall 2019 - Patrick G. Stephen
+
+Assignment 2 - Arrays, Structures and Pointers
+
+Due: Saturday, September 7th 2019 @ Midnight (i.e. "Friday Night")
+
+Overview:
+In this assignment, you will read a set of comma-delimited records (lines)
+from a text file and store them into an array of structure pointers.
+You will not know beforehand how many lines the input file contains so
+your program must be capable of receiving any number of them.  Once
+the file has been read, your program must prompt the user to ask
+how the data should be printed: either in ascending order (the order in
+which the records appeared in the file), or in descending order (the
+reverse order in which the records appeared).  After receiving the order
+from the user, the program shall print all records accordingly (see below).
+Your program should only read up to a maximum of 3 lines from the file
+but will be satisfied reading less.  Anything above 3 lines should be
+silently ignored (without an error message).
+
+Input:
+The input file will be formatted as follows (note that this may not be
+the specific data used during evaluation of the program).  The first item
+on each row represents the first name of the person.  The second item on
+each row represents their favorite sport:
+
+	Patrick,Football
+	Michael,Soccer
+	Richard,Tennis
+	Thomas,Golf
+
+Output:
+The output will be sent to STDIO (the screen).  Below is an example of the
+output expected for the data provided (under "Input").
+
+	Select one of the following options:
+
+	1: print list in order
+	2: print list in reverse order
+	Enter selection: 2
+	Name is Richard, Favorite Sport is Tennis
+	Name is Michael, Favorite Sport is Soccer
+	Name is Patrick, Favorite Sport is Football
+
+Error Handling:
+Your program should handle the following errors gracefully meaning that
+it should print a meaningful message, return a scenario-specific error
+code and immediately exit the program when it is encountered.
+
+1.) The input file is empty
+2.) Memory allocation has failed
+3.) The users selects an invalid option (an integer that is outside the
+    expected range)
+
+Assumptions:
+1.) The input will be found within a file called "people.txt"
+2.) Each record in the input file will contain exactly 2 fields
+3.) The user will always enter numeric characters, no need to validate
+    for this.
+4.) None of the field values will contain a space
+
+Requirements:
+1.) The prompting for user input and the capturing of his/her response
+	should be implemented as a function having the following signature:
+
+	int get_menu_selection();
+
+	...where the return value is the select number.  NOTE: you must use
+	the atoi() function to convert the user's text input into an int
+
+2.) The population of your structure should happen in a separate function
+	having the folloiwng signature:
+
+	struct Person * populate_person(char *, struct Person *);
+
+	...where the return value is a pointer to the populated structure,
+	the first parameter is a pointer to a buffer holding the line read
+	from the input file, and the second parameter is a pointer to the
+	structure (pre-populated)
+
+3.) You must declare your own structure to hold the values contained within
+	the file (one structure instance per record).  Note: in the example
+	above, the structure defined is implied to be called 'Person'.
