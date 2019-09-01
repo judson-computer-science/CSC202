@@ -18,6 +18,19 @@ Your program should only read up to a maximum of 3 lines from the file
 but will be satisfied reading less.  Anything above 3 lines should be
 silently ignored (without an error message).
 
+Assignment Submission:
+You will submit your assignment using GitHub Classroom.  When you are
+finished and want to make your final submission, use the checkin
+comment "FINAL SUBMISSION":
+
+	git add .
+	git commit -m "FINAL SUBMISSION"
+	git push origin master
+
+Any submission not having this comment will be assumed to be a
+work-in-progress and therefore will be ignored.  This implies that you
+must make your final push with this commit comment before the deadline.
+
 Input:
 The input file will be formatted as follows (note that this may not be
 the specific data used during evaluation of the program).  The first item
@@ -30,7 +43,7 @@ each row represents their favorite sport:
 	Thomas,Golf
 
 Output:
-The output will be sent to STDIO (the screen).  Below is an example of the
+The output will be sent to STDOUT (the screen).  Below is an example of the
 output expected for the data provided (under "Input").
 
 	Select one of the following options:
