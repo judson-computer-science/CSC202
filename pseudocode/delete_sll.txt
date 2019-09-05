@@ -1,0 +1,37 @@
+=====================================================================
+## psuedocode to delete the first node having the value specified
+## from the linked list.  If no node is found, return null
+=====================================================================
+
+DELETE (head, value):
+
+SET curr_ptr TO head
+SET prev_ptr TO NULL
+
+
+## continue looping until the end of the list is found
+WHILE curr_ptr IS NOT NULL
+
+	IF "number" of the curr_ptr IS EQUAL TO "value"
+
+		## point the previous node (or head)
+		## to the node after the one that is being deleted
+		IF prev_ptr IS NOT NULL
+			SET "next" OF prev_ptr TO "next" of curr_ptr
+		ELSE
+			SET head TO "next" of curr_ptr
+		END IF
+
+		RETURN curr_ptr
+	ELSE
+
+		## the criteria was not met, advance the pointers
+		SET prev_ptr TO curr_ptr
+		SET curr_ptr TO "next" of curr_ptr
+
+	ENDIF
+
+END WHILE
+
+## we have finished looping and didn't find a match
+RETURN NULL

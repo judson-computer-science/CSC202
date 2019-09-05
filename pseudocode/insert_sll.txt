@@ -1,0 +1,60 @@
+=====================================================================
+## pseudocode to insert a node into a linked list such
+## that the resulting list contains items in ascending order
+=====================================================================
+
+INSERT (head, value):
+
+instantiate "node" and SET "value"
+
+SET curr_ptr TO head
+SET prev_ptr TO NULL
+
+## continue looping until the end of the list is found
+WHILE curr_ptr IS NOT NULL
+
+	## if criteria is met, insert the node
+	IF "number" of the curr_ptr is greater than "value"
+
+		## set the value of the next pointer
+		## in the node that is being inserted
+		SET "next" OF node TO curr_ptr
+
+		## point the previous node (or head)
+		## to the node that is being inserted
+		IF prev_ptr IS NOT NULL
+			SET "next" OF prev_ptr TO node
+		ELSE
+			SET head TO node
+		END IF
+
+		## all done, return the node that was inserted
+		RETURN node
+
+	ELSE
+
+		## the criteria was not met, advance the pointers
+		SET prev_ptr TO curr_ptr
+		SET curr_ptr TO "next" of curr_ptr
+
+	ENDIF
+END WHILE
+
+## we've made it to the end of the loop without
+## the criteria being met, insert the node at
+## the end of the list.
+
+## set the value of the next pointer in the node
+## that is being inserted
+SET "next" OF node TO curr_ptr
+
+## point the previous node (or head) to the node
+## that is being inserted
+IF prev_ptr IS NOT NULL
+	SET "next" OF prev_ptr TO node
+ELSE
+	SET head TO node
+END IF
+
+## all done, return the node that was inserted
+RETURN node

@@ -1,0 +1,26 @@
+=====================================================================
+## pseudocode to push a node onto a stack implemented
+## as a linked list
+=====================================================================
+
+PUSH (head, value):
+
+instantiate "node" and SET "value"
+
+IF head is NULL
+	## handle case where list is empty
+	SET head TO node
+ELSE
+	## set pointer to the beginning of the list
+	SET curr_ptr TO head
+
+	## advance to the end of the list
+	WHILE "next" OF curr_ptr IS NOT NULL
+		SET curr_ptr TO "next" OF curr_ptr
+	END WHILE
+
+	## insert the node at the end
+	SET "next" OF curr_ptr TO node
+ENDIF
+
+RETURN node

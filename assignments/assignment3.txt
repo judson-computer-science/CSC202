@@ -1,0 +1,140 @@
+CSC202 - Fall 2019 - Patrick G. Stephen (Instructor)
+
+Assignment 3 - Linked Lists
+
+Due: Saturday, September 14th 2019 @ Midnight (i.e. "Friday Night")
+
+Overview:
+In this assignment you will read a set of comma delimited records from
+a file.  Each record contains a command indicator ("I" or "D") followed
+by a value.  Your program should read each line in the file and attempt
+to perform the specified operation on a Linked List using the data
+that follows the command.  For example, if the line in the file is
+"I,10", your program will (I)nsert the number 10 into the linked list.
+Likewise, if the line contains the string "D,10", your program
+will (D)elete the first node containing the number 10 from 
+the Linked List (if there are multiple nodes with the number 10, only
+one should be deleted).
+
+Assignment Submission:
+You will submit your assignment using GitHub Classroom.  When you are
+finished and want to make your final submission, use the checkin
+comment "FINAL SUBMISSION":
+
+	git add .
+	git commit -m "FINAL SUBMISSION"
+	git push origin master
+
+Any submission not having this comment will be assumed to be a
+work-in-progress and therefore will be ignored.  This implies that you
+must make your final push with this commit comment before the deadline.
+
+Input:
+The input will be formatted in the following way where the first token
+on the line indicates the operation and the second indicates the value.
+
+	I,5
+	D,8
+	D,9
+	I,2
+
+Implementation:
+Your program MUST include implementations for the functions 
+corresponding to each function prototype listed here:
+
+	struct Node * insert(struct Node **, int);
+
+		This function inserts a Node into the linked list such
+		that the resulting list contains Nodes arraged 
+		sequentially (in ascending order) based on the values
+		stored in each.
+
+		Returns:  The address of the inserted Node
+		Parameters: 1.) The address of the head pointer
+		            2.) The value to be set in new Node
+
+	struct Node * delete(struct Node **, int);
+
+		This function deletes a Node from the linked list.  The
+		Node deleted is the first encountered with a value that
+		matches the second parameter supplied to the function.
+		
+		Returns: The address of the deleted Node or NULL if
+		         no qualifying Node is found.
+		Parameters: 1.) The address of the head pointer
+		            2.) The value in the Node to be deleted
+
+	void print_list();
+
+		This function traverses the entire linked list printing
+		each Node's value it encounters.
+
+Your program MUST define the following structure for the Node:
+
+	struct Node {
+		struct Node * next;
+		int value;
+	};
+
+Output:
+Your program should print each value after successful insertion or
+deletion.  It should also print the entire contents of the list, in
+order, after each insertion or deletion.  If an attempt has been made
+to delete a value that is not in the list, an error message MUST be
+generated.  Finally, an error message must be used to indicate when
+an unrecongnized command is found in the file.
+
+The following is the expected output based on the corresponding input:
+
+	Example Input:
+
+		I,4
+		I,3
+		I,46
+		I,2
+		E,2
+		I,4
+		I,5
+		D,4
+		D,100
+		I,100
+
+	Expected Output:
+
+		Just inserted value 4
+		List values: [4] 
+		Just inserted value 3
+		List values: [3] [4] 
+		Just inserted value 46
+		List values: [3] [4] [46] 
+		Just inserted value 2
+		List values: [2] [3] [4] [46] 
+		Unrecognized command [E]...ignoring
+		Just inserted value 4
+		List values: [2] [3] [4] [4] [46] 
+		Just inserted value 5
+		List values: [2] [3] [4] [4] [5] [46] 
+		Just deleted value [4]
+		List values: [2] [3] [4] [5] [46] 
+		Unable to delete [100]
+		List values: [2] [3] [4] [5] [46] 
+		Just inserted value 100
+		List values: [2] [3] [4] [5] [46] [100]
+
+Error Handling:
+1.) your program must print a meaningful error message if 
+    and unrecognized operation is encountered (see above)
+2.) your program must print a meaningful error message if
+    an attempt is made to delete a non-existent value
+
+Assumptions:
+1.) the input file will be called "ll_input.txt"
+2.) each line will contain a single character followed by
+    a comma, followed by a positive integer 
+    (the number can be more than one digit)
+
+Requirements:
+1.) your program must be able to handle any number of input lines
+2.) after deleting a Node from the list, your program must release
+    the allocated memory for that Node
+

@@ -1,0 +1,32 @@
+=====================================================================
+## pseudocode to pop a node from a stack implemented as a linked list
+=====================================================================
+
+POP (head):
+
+SET curr_ptr TO head
+SET prev_ptr TO NULL
+
+## continue looping until the end of the list is found
+WHILE curr_ptr IS NOT NULL
+
+	## if we are at the last node, pop it
+	IF "next" of the curr_ptr IS NULL
+
+		IF prev_ptr IS NOT NULL
+			SET "next" OF prev_ptr TO "next" OF curr_ptr
+		ELSE
+			SET head TO "next" OF curr_ptr
+		ENDIF
+
+		RETURN curr_ptr
+	ELSE
+
+		## the criteria was not met, advance the pointers
+		SET prev_ptr TO curr_ptr
+		SET curr_ptr TO "next" of curr_ptr
+	ENDIF
+
+END WHILE
+
+RETURN NULL
