@@ -1,0 +1,63 @@
+
+ADDRESS | xxx0      | xxx4      | xxx8      | xxxC      |
+--------+-----------+-----------+-----------+-----------+
+0000	|00:00:00:00|00:00:00:00|00:00:00:00|00:00:00:00|
+0010	|00:00:00:50|00:00:00:00|00:00:00:00|00:00:00:00|
+0020	|00:00:00:00|00:00:00:00|00:00:00:00|00:00:00:00|
+0030	|00:00:00:10|00:00:00:00|00:00:00:00|00:00:00:00|
+0040	|00:00:00:00|00:00:00:00|00:00:00:00|00:00:00:00|
+0050	|00:00:00:00|00:00:00:00|00:00:00:00|00:00:00:00|
+0060	|00:00:00:00|00:00:00:00|00:00:00:00|00:00:00:00|
+0070	|00:00:00:00|00:00:00:00|00:00:00:00|00:00:00:00|
+0080	|00:00:00:00|00:00:00:00|00:00:00:00|00:00:00:00|
+0090	|00:00:00:00|00:00:00:00|00:00:00:00|00:00:00:00|
+00A0	|00:00:00:00|00:00:00:00|00:00:00:00|00:00:00:00|
+00B0	|00:00:00:00|00:00:00:00|00:00:00:00|00:00:00:00|
+00C0	|00:00:00:00|00:00:00:00|00:00:00:00|00:00:00:00|
+
+
+struct Node {
+	int value;			// assume this is 4 bytes
+	struct Node * next; // assume this is 4 bytes
+}
+
+void do_something(struct Node **);
+
+int main() {
+	
+	struct Node * head;  // assume head is located at address 0010
+
+	do_something(&head); // the value passed is 0010
+
+}
+
+void do_something(struct Node ** ptr) {
+
+	// when this function executes, a new variable called 'ptr' is created
+	// we will assume it is located at memory address 0030.  It contains
+	// a copy of the value that was passed into the function.  In this case
+	// that value is the address of head, or the value 0010, since we called
+	// the function like this:  do_something(&head);
+
+
+	// if malloc gives 8 bytes of data that happen to start at address 0050,
+	// then the following line of code will put the value 0050
+	// into the memory address that can be found in 'ptr' (at address 0030)
+	// ...that memory address is 0010.
+	//
+	// THIS IS THE DESIRED RESULT WHEN WE WANT THE POINTER THAT WAS PASSED
+	// TO THE FUNCTION TO BE UPDATED WITH THE ADDRESS OF THE ALLOCATED MEMORY
+	
+	*ptr = (struct Node *) malloc(sizeof(struct Node));
+
+
+	// if another call to malloc gives 8 bytes of data that start at address 00A0,
+	// then the following line of code will put the value 00A0
+	// into 'ptr' itself which would overwrite the value of 0010 that was passed in
+	//
+	// THIS IS *NOT* THE DESIRED RESULT WHEN WE WANT THE POINTER THAT WAS PASSED
+	// TO THE FUNCTION TO BE UPDATED WITH THE ADDRESS OF THE ALLOCATED MEMORY
+
+	ptr = (struct Node *) malloc(sizeof(struct Node));
+
+}
