@@ -1,0 +1,226 @@
+CSC202 - Fall 2019 - Patrick G. Stephen (Instructor)
+
+Assignment 4 - Stacks and Queues
+
+Due: Saturday, September 28th 2019 @ Midnight (i.e. "Friday Night")
+
+Overview:
+In this assignment you will read a set of comma delimited records from
+a file.  Each record contains a command indicator ("U" for pUsh or "O"
+for pOp) followed by a value.  Your program should first read each line 
+in the file into a queue having an underlying Linked List implementation.
+The structure of the nodes is shown below and the data must be stored
+in the queue before any processing or interpretation of the data has been
+performed.  After having populated the queue, your program must then begin
+dequeing the nodes and processing the corresponding data one-by-one.
+
+While dequeing the nodes from the queue, your program should attempt
+to perform the specified operation (either "push" or "pop") onto two
+separate stacks (one with an undrelying Linked List implementation and
+one with an underlying array implementation).  After performing each
+operation, your program must print the contents of each stack to STDOUT.
+
+As with assignment 3, your program must ignore any commands it
+encounters which are not recognized (where the line begins with a value
+other than "U" or "O").
+
+The size of your array stack must be 5 and you must not continue to
+push values onto it once the capacity has been reached.  The Linked
+List implementation, however, has no maximum capacity.
+
+Assignment Submission:
+You will submit your assignment using GitHub Classroom.  When you are
+finished and want to make your final submission, use the checkin
+comment "FINAL SUBMISSION":
+
+	git add .
+	git commit -m "FINAL SUBMISSION"
+	git push origin master
+
+Any submission not having this comment will be assumed to be a
+work-in-progress and therefore will be ignored.  This implies that you
+must make your final push with this commit comment before the deadline.
+
+Input:
+The input will be formatted in the following way where the first token
+on the line indicates the operation and the second indicates the value.
+
+	U,5
+	O,8
+	O,9
+	U,2
+
+Implementation:
+Your program MUST include implementations for the functions 
+corresponding to each function prototype listed here:
+
+	struct QueueNode * ll_enqueue(struct QueueNode **, char *);
+
+		This function enqueues a record from the file into the queue.
+
+		Returns:  The address of the enqueued QueueNode
+		Parameters: 1.) The address of the head pointer
+		            2.) A pointer to the line of text to be stored
+
+	struct QueueNode * ll_dequeue(struct QueueNode **);
+
+		This function dequeues a node from the queue.
+
+		Returns:  The address of the dequeued QueueNode or NULL
+				  if the queue is empty.
+		Parameters: 1.) The address of the head pointer
+
+	int ar_push(int *, int *, int);
+
+		This function pushes a value into the array stack.
+
+		Returns:  The value pushed onto the stack or a number
+					less than 0 to indicate failure to push
+		Parameters: 1.) The address of the array stack
+		            2.) The address of the variable containing
+		            	the next available stack position
+		            3.)	The value to be pushed
+
+	int ar_pop(int *, int *);
+
+		This function pops a value from the array stack.
+		
+		Returns: The value popped from the stack or a number
+					less than 0 to indicate that the stack was empty
+		Parameters: 1.) The address of the array stack
+		            2.) The address of the variable containing
+		            	the next available stack position
+
+	struct StackNode * ll_push(struct StackNode **, int);
+
+		This function pushes a StackNode into the linked list stack.
+
+		Returns:  The address of the pushed StackNode
+		Parameters: 1.) The address of the head pointer
+		            2.) The value to be set in new StackNode
+
+	struct StackNode * ll_pop(struct StackNode **);
+
+		This function pops a StackNode from the linked list stack.
+		
+		Returns: The address of the popped StackNode or NULL if
+		         no qualifying StackNode is found.
+		Parameters: 1.) The address of the head pointer
+
+	void ll_print_list(struct StackNode *);
+
+		This function traverses the entire linked list stack
+		printing each StackNode's value it encounters.
+
+		Returns: nothing
+		Parameters: 1.) A copy of the head pointer
+
+	void ar_print_list(int *, int);
+
+		This function traverses the entire array stack printing
+		each value it encounters.
+
+		Returns: nothing
+		Parameters: 1.) The address of the array stack
+					2.) The index of the next available position
+
+Your program MUST define the following structures for the nodes:
+
+	struct QueueNode {
+		struct QueueNode * next;
+		char input_line[MAX_INPUT_LINE];
+	};
+
+	struct StackNode {
+		struct StackNode * next;
+		int value;
+	};
+
+Output:
+Your program should print each value (a confirmation message) after 
+successfully pushing or popping.  It should also print the entire 
+contents of each stack, in order, after each push or pop operation. 
+If an attempt has been made to pop a value from an empty stack, an
+error message MUST be generated.  However, if an attempt is made 
+to push a value into a full stack, no confirmation message should 
+be provided, neither shall there be an error message.
+
+Finally, an error message must be used to indicate when
+an unrecongnized command is found in the file.
+
+The following is the expected output based on the corresponding input.
+Note that in this example, the array stack size is 3 (yours will be 5):
+
+	Example Input:
+
+		U,4
+		U,3
+		U,1
+		U,100
+		E,100
+		O
+		O
+		O
+		O
+		O
+
+	Expected Output:
+
+		LL Stack: Just pushed value 4
+		AR Stack: Just pushed value 4
+		LL Stack values: [4] 
+		AR Stack values: (4) 
+		LL Stack: Just pushed value 3
+		AR Stack: Just pushed value 3
+		LL Stack values: [4] [3] 
+		AR Stack values: (4) (3) 
+		LL Stack: Just pushed value 1
+		AR Stack: Just pushed value 1
+		LL Stack values: [4] [3] [1] 
+		AR Stack values: (4) (3) (1) 
+		LL Stack: Just pushed value 100
+		LL Stack values: [4] [3] [1] [100] 
+		AR Stack values: (4) (3) (1) 
+		Unrecognized command [E]...ignoring
+		LL Stack: Just popped value [100]
+		AR Stack: Just popped value [1]
+		LL Stack values: [4] [3] [1] 
+		AR Stack values: (4) (3) 
+		LL Stack: Just popped value [1]
+		AR Stack: Just popped value [3]
+		LL Stack values: [4] [3] 
+		AR Stack values: (4) 
+		LL Stack: Just popped value [3]
+		AR Stack: Just popped value [4]
+		LL Stack values: [4] 
+		AR Stack values: 
+		LL Stack: Just popped value [4]
+		AR Stack: Unable to pop, stack is empty
+		LL Stack values: 
+		AR Stack values: 
+		LL Stack: Unable to pop, stack is empty
+		AR Stack: Unable to pop, stack is empty
+		LL Stack values: 
+		AR Stack values: 
+
+Error Handling:
+1.) your program must print a meaningful error message if 
+    and unrecognized operation is encountered (see above)
+2.) your program must print a meaningful error message if
+    an attempt is made to delete a non-existent value
+
+Assumptions:
+1.) the input file will be called "stack_input.txt"
+2.) each line will contain a single character followed by
+    a comma, followed by a positive integer 
+    (the number can be more than one digit). In the case
+    of a pop operation, the line will contain just a single
+    character "O".
+
+Requirements:
+1.) your program must be able to handle any number of input lines
+2.) after popping a StackNode from the stack, your program must release
+    the allocated memory for that StackNode
+3.) your program must close the input file after you have finished reading
+	its contents
+

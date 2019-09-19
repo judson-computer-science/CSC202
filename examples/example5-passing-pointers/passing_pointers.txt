@@ -51,12 +51,14 @@ void do_something(struct Node ** ptr) {
 	*ptr = (struct Node *) malloc(sizeof(struct Node));
 
 
-	// if another call to malloc gives 8 bytes of data that start at address 00A0,
-	// then the following line of code will put the value 00A0
-	// into 'ptr' itself which would overwrite the value of 0010 that was passed in
+	// if another call to malloc gives 8 bytes of data that start at address
+	// 00A0, then the following line of code will put the value 00A0
+	// into 'ptr' itself which would overwrite the value of 0010 that
+	// was passed in.
 	//
-	// THIS IS *NOT* THE DESIRED RESULT WHEN WE WANT THE POINTER THAT WAS PASSED
-	// TO THE FUNCTION TO BE UPDATED WITH THE ADDRESS OF THE ALLOCATED MEMORY
+	// THIS IS *NOT* THE DESIRED RESULT WHEN WE WANT THE POINTER THAT
+	// WAS PASSED TO THE FUNCTION TO BE UPDATED WITH THE ADDRESS OF
+	// THE ALLOCATED MEMORY
 
 	ptr = (struct Node *) malloc(sizeof(struct Node));
 
