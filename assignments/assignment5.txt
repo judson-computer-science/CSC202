@@ -1,0 +1,247 @@
+CSC202 - Fall 2019 - Patrick G. Stephen (Instructor)
+
+Assignment 5 - Hashtables
+
+Due: Saturday, October 12th 2019 @ Midnight (i.e. "Friday Night")
+
+Overview:
+The purpose of this assignment is to create and manage 3 different hastables,
+each employing different conflict resolution strategies (Linear Probing and
+two variations of Double Hasing). The variations of Double Hashing will
+require hashtables of different sizes.
+
+In this assignment you will read an unknown number of records from a
+file.  Each record will contain a 3 character alphabetic string which
+you will store into one of the three hashtables.  The hashtables will each
+implement the same hashing function but will leverage different conflict
+resolution strategies:  The first will use Double Hashing with a
+table size of 13 (a prime number).  The next will use Double Hashing with
+a table size of 16 (2^4).  Finally, the third hashtable will use Linear
+Probing and will have a table size of 13 also.
+
+Your program should prompt the user to determine which Conflict Resolution
+Strategy (and consequently, which underlying hashtable implementation)
+he/she would like to use.  Once the selection has been made, your program will
+read through the records one-by-one generating the hash value and the probe
+interval before attempting to insert the record into the table. The hashing
+function discussed in class (which can be found in your book) shall be
+implemented and the probe interval will also be calculated within the
+parameters of what is required for the size of hashtable you are using
+(see the second item under the "Requirements" section below).
+
+After each attempted insertion, your program will print a line containing
+the record, the number of probes required to successfully perform the
+insertion, the computed probe interval, the computed hash value and the
+entire hash table with its current contents.  When all the records are
+finished being processed, a summary will also be generated as shown below.
+Your output should be formatted exactly as the example below is formatted.
+
+Assignment Submission:
+You will submit your assignment using GitHub Classroom.  When you are
+finished and want to make your final submission, use the checkin
+comment "FINAL SUBMISSION":
+
+	git add .
+	git commit -m "FINAL SUBMISSION"
+	git push origin master
+
+Any submission not having this comment will be assumed to be a
+work-in-progress and therefore will be ignored.  This implies that you
+must make your final push with this commit comment before the deadline.
+
+Input:
+The input will be formatted in the following way. NOTE that there will
+not be any numbers or special characters present in the records.
+
+	ABC
+	XYZ
+	ORD
+	MID
+	XYY
+	TOP
+	YES
+	MDH
+	PGS
+
+Implementation:
+Your program MUST include the custom header file called "hash.h". This will
+make the char_to_base26() function availabe for use as shown below.  You will
+include this file using the directive: #include "libs/hash.h". NOTE: this will
+only be possible after you have downloaded the assignment repository since the
+header file is custom and will be in the base repository for your assignment.
+
+Additionally, you must define the following three arrays which will serve as
+the three hashtables.  Each array contains character pointers which represent
+the string entry at that location in the table:
+
+	char * prime_dhash_table[PRIME_HASH_TABLE_SIZE];
+	char * power_dhash_table[POWER_HASH_TABLE_SIZE];
+	char * prime_shash_table[PRIME_HASH_TABLE_SIZE];
+
+Your program MUST include implementations for the functions 
+corresponding to each function prototype listed here:
+
+	int hash(char *, int);
+
+		This function calculates the hash value (the index into the array
+		where the insertion will be attempted). This function should
+		compute the hash value based on the method described in your text
+		book on page (See "Requirements" section below). The 
+		char_to_base26(char) function should be used to get the base26 
+		representation of each character in the string.
+
+		Returns: The computed hash value
+		Parameters: 1.) the value to be inserted into the selected hashtable
+					2.) the size of the selected hash table
+
+
+	int probe_interval(char *, int, int);
+
+		This function calculates the probe interval to be
+		used in the collision resolution strategy.  It should return an
+		appropriate value based on the type of hashtable selected. For 
+		example, when the linear probing strategy has been selected, the
+		function will return a value of 1. When the "Power of 2" variation
+		of Double Hashing is selected, the function will return an odd number
+		in the range of 1 to M (where M is the size of the hashtable).
+		Finally, when the Prime Number with Double hashing strategy has been
+		selected, this function will return a value in the range of 1 to M
+		(where M is the size of the hashtable).  For more details on this,
+		see "Requirements" section below.
+
+		Returns: The appropriate probe value
+		Parameters: 1.) the value to be inserted into the selected hashtable
+					2.) the size of the selected hashtable
+					3.) a number representing the strategy selected
+
+
+	int insert(char **, int, char *, int, int);
+
+		This function inserts the value into the specified hashtable
+
+		Returns: The number of probes required to successfully perform the insert
+				 OR -1 if the insert was not performed due to a full hashtable
+		Parameters: 1.) the selected hashtable
+					2.) the hash value (i.e. the index to attempt the insertion)
+					3.) the value to insert into the table
+					4.) the probe interval to be used in resolving conflicts
+					5.) the selected hashtable's size
+
+
+	void print_table(char *, char **, int);
+
+		This function traverses the entire hashtable printing each value
+		it encounters.
+
+		Returns: nothing
+		Parameters: 1.) the string to be printed before the hashtable contents
+					2.) the selected hashtable
+					3.) the selected hashtable's size
+
+Output:
+Your program should print a strategy selection menu prompting the
+user for which Collision Resolution Strategy to employ.  After the
+user has made a selection, the program must print the strategy that
+is being used before beginning to print the result of adding each value
+to the hashtable.
+
+After attempting to store a value into a hashtable, the a line
+summarizing the result of the operation shall be printed. The line should
+begin with the value inserted, provide the number of probes required
+before successful insertion ("prbs"), the computed hash value ("hash"),
+the computed probe interval ("int") and the entire hashtable's contents.
+While printing the context, NULL values should be depicted as three
+dashes ("---").  In cases where the hashtable was full, a "Table Full"
+message shall be printed followed by the contents of the entire table.
+NOTE: when printing the summary line with the result of each insert, use
+the "%2d" formatter in your printf() call to ensure that any double
+digit numbers are right justified and that two character spaces will
+always print irrespective of the numerical value.  This will preserve the
+formatting to ensure that your output is aligned as is shown in the
+example regardless of the value printed.
+
+The following is the expected output based on the corresponding input.
+Note that in this example, the hashtable size used for option #1 was 5:
+
+	Example Input:
+
+		ABC
+		XYZ
+		ORD
+		MID
+		XYY
+		TOP
+		YES
+		MDH
+		PGS
+
+	Expected Output:
+
+		Select a strategy
+			[1] Double Hashing, Prime Number Size
+			[2] Double Hashing, Power Number Size
+			[3] Linear Probing
+		selection:1
+
+		Using Double Hashing with Prime Number table size:
+
+		[ABC] prbs:  1, hash:  1, int:  1: [---][ABC][---][---][---]
+		[XYZ] prbs:  2, hash:  1, int:  4: [XYZ][ABC][---][---][---]
+		[ORD] prbs:  1, hash:  2, int:  2: [XYZ][ABC][ORD][---][---]
+		[MID] prbs:  3, hash:  1, int:  1: [XYZ][ABC][ORD][MID][---]
+		[XYY] prbs:  2, hash:  0, int:  4: [XYZ][ABC][ORD][MID][XYY]
+		[TOP] Table Full: [XYZ][ABC][ORD][MID][XYY]
+		[YES] Table Full: [XYZ][ABC][ORD][MID][XYY]
+		[MDH] Table Full: [XYZ][ABC][ORD][MID][XYY]
+		[PGS] Table Full: [XYZ][ABC][ORD][MID][XYY]
+
+
+		SUMMARY:
+		========
+
+		Hash Table Size: 5
+		Total Items Attepted: 9
+		Total Items Inserted: 5
+		Total Items Rejected: 4
+		Combined Probes for all items: 9	
+
+Error Handling:
+1.) your program must print a meaningful error message and exit with
+	a scenario-specific error code, if the file does not exist.
+2.) your program must print a meaningful error message and exit with
+	a scenario-specific error code, if an invalid option is provided
+	by the user.
+
+Assumptions:
+1.) the input file will be called "a5_input.txt"
+2.) the file will always contain at least one record but there is no
+	limit to the number of records in the file
+3.) each record contains exactly 3 alphabetic characters (no number
+	or special characters)
+
+Requirements:
+1.) The primary hashing function, h(k), detailed on page 472 of your 
+	textbook must be used to compute the hash value for all three scenarios.
+2.)	The probe intervals calculated in this assignment shall be used to
+	increment the hash value as opposed to decrement the hash value (as
+	described in your book).  For example, if the initial hash value is
+	computed as 3 and the probe interval is 2, then the next index used
+	when attempting the insert operation will be 5 instead of 1. 
+3.) Your probe_interval() function must employ the secondary hashing
+	method described on page 473 of your textbook (ref 11.6) when determining
+	the probe interval (referred to as the "probe decrement value" in
+	your book). When generating a probe interval for the "Power of 2"
+	hashtable, the same formula should be used as with the "Prime Number"
+	hashtable, with the additional step that if the result of this
+	calculation is an odd number, then that result should be decreased 
+	by 1 before returning the value to the caller of the function.
+
+		NOTE: in order to derive the probe interval, the book is expecting
+			  you to call a function called max() which will return the
+			  greater of the two parameters that are passed to it. This is
+			  not a native function in C but you will be able to have
+			  access to it when you include the custom header file
+			  "hash.h".  Note that in this file, the function is called
+			  MAX() instead of max();
+
+
