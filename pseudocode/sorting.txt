@@ -1,0 +1,72 @@
+Sorting:
+
+-all comparison based sorting algo have at least n log n runtime
+
+
+Tree Sort:
+----------
+-build binary tree
+-perform in-order traversal inserting values during visit
+-O(n log n)
+
+
+Bubble Sort:
+------------
+-average run time: O(n^2)
+
+WHILE NOT done
+	SET done to TRUE
+
+	SET index to 1
+	WHILE index less than n-1
+
+		IF values[index] > values[index - 1]
+
+			EXCHANGE values[index] AND values[index - 1]
+			SET done to FALSE
+		END IF
+
+		SET index TO index + 1
+	END WHILE
+
+END WHILE
+
+
+
+INSERTION SORT:
+---------------
+O(n^2)
+
+SET index_front TO 1
+WHILE index_front < list_size
+
+	SET key TO arr[index_front]
+	SET index_back TO index_front
+
+	## move each key > arr[index_front] one space right
+	IF arr[index_back] GREATER THAN key
+		SET not_done TO TRUE
+	ENDIF
+
+	WHILE not_done IS TRUE
+
+		## move one space right
+		arr[index_front] TO arr[index_back]
+
+		IF index_back == 0
+			SET not_done TO FALSE
+		ELSE
+			IF arr[index_back] > key
+				SET not_done TO TRUE
+			ELSE
+				SET not_done TO FALSE
+			END IF
+
+			SET index_back TO index_back - 1
+		ENDIF
+
+	END WHILE
+
+	arr[index_back] = key
+
+END WHILE
