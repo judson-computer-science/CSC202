@@ -1,0 +1,16 @@
+
+
+PARSE
+
+SET next_val TO next character
+
+SET node->value TO next character
+SET node->left TO NULL
+SET node->righ TO NULL
+
+IF(next_val is '+' OR '*')
+	SET node->left TO PARSE()
+	SET node->right TO PARSE()
+ENDIF
+
+RETURN node

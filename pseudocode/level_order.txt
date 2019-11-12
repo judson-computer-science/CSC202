@@ -1,0 +1,18 @@
+## using a stack with pre-order processing
+
+LEVEL ORDER TRAVERSAL
+
+ENQUEUE node
+
+WHILE(Q IS NOT EMPTY)
+
+ 	DEQUEUE node
+
+	IF node IS NOT NULL
+		PRINT node->value
+		ENQUEUE node->left
+		ENQUEUE node->right
+	END IF
+
+END WHILE
+

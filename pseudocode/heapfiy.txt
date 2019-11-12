@@ -1,0 +1,39 @@
+
+HEAPIFY(array, parent_index, array_size)
+
+WHILE(parent->left IS NOT NULL)
+
+	SET child TO parent->left
+
+	## get greater of two children
+	IF parent->right IS NOT NULL AND parent->left < parent->right
+		SET child to parent->right
+	END IF
+
+	## compare greater of children against parent
+	IF parent->value > child->value
+		BREAK
+	END IF
+
+	## swap values when child is greater
+	SET temp TO parent-> value
+	SET parent->value to current->value
+	SET current->value TO temp
+
+	SET parent TO child
+
+END WHILE
+
+
+## build the heap
+BOTTOM UP(array, current)  ## should start out as last item in the heap
+
+WHILE(current NOT at top AND parent->value LESS THAN current->value)
+
+	SET temp TO parent-> value
+	SET parent->value to current->value
+	SET current->value TO temp
+
+	SET current TO parent
+
+END WHILE

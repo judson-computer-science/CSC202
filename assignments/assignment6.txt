@@ -1,0 +1,231 @@
+CSC202 - Fall 2019 - Patrick G. Stephen (Instructor)
+
+Assignment 6 - Sorting
+
+Due: Saturday, November 29th 2019 @ Midnight (i.e. "Friday Night")
+
+Overview:
+The purpose of this assignment is to sort a list of values using two different
+sorting algorithms discussed in class - The Tree Sort and the Heap Sort.
+
+In this assignment you will read an unknown number of integers from a
+file.  The integers will be listed on a single line that is terminated
+by a newline character.  Each integer in the list is separated by a
+comma.
+
+Your program should read the list of values from the file, convert from 
+the string representation to an integer representation, and then store the
+integer value in both a binary tree, as well as an array that will later
+be converted into a Max Heap.  The values should be inserted in the order
+they are encountered in the file.
+
+Print utilities are provided in the tree.h and xxxx.h header files so that
+you can visualize the data structures as you build them.  After reading the
+final value from the file, your program will print the entire binary tree
+and array.  It will then perform the aforementioned sorts on each of the
+data structures:
+
+The Tree Sort will be performed on the binary tree with the sorted data
+being populated into a new, sorted array.  The Heap Sort will be performed
+on the data in the Heap Array after first initializing the array to a
+Max Heap.
+
+Assignment Submission:
+You will submit your assignment using GitHub Classroom.  When you are
+finished and want to make your final submission, use the checkin
+comment "FINAL SUBMISSION":
+
+	git add .
+	git commit -m "FINAL SUBMISSION"
+	git push origin master
+
+Any submission not having this comment will be assumed to be a
+work-in-progress and therefore will be ignored.  This implies that you
+must make your final push with this commit comment before the deadline.
+
+Input:
+The input will be formatted in the following way. NOTE that there will
+not be any unexpected characters present on the record.
+
+	100,160,66,10,210,905,6,450
+
+Implementation:
+Your program MUST include the custom header files called "tree.h" and 
+"ds_utils.h". These will make the following structure declaration and
+functions available respectively:
+
+	Binary Tree Node Structure:
+	---------------------------
+
+	struct Node {
+		struct Node * left_tree;
+		struct Node * right_tree;
+		int value;
+	};
+
+	Functions:
+	----------
+
+	void print_tree(struct Node ** head);
+
+		This function prints a visual representation of the binary 
+		tree supplied
+
+		Returns: Nothing
+		Parameters: 1.) the address of the Tree's head pointer
+
+	struct Node * get_new_node(int value);
+
+		This function returns a new, initialized Node to be inserted 
+		into the binary tree
+
+		Returns: The address of the newly allocated Node
+		Parameters: 1.) The value to be populated into the new Node.
+
+	void print_array(const char * label, int * array, int array_size);
+
+		This function prints the array provided.  Values of 0 found within
+		the array are assumed to indicate that they are empty.  Such values
+		are rendered as the following string: "[---]".
+
+Additionally, you must define the following arrays which will be used
+to store the sorted output from your Tree Sort and Heap Sort respectively:
+
+	int sorted_tree[MAX_ELEMENTS];
+	int heap[MAX_ELEMENTS];
+
+Note that your heap should leave the 0th element unused such that the first
+element in the array is inserted at the 1st (not 0th) element position.  This
+will allow for the index values to be calculated based on the table found in
+table 9.7 of you textbook, Standish (p. 345).
+
+Your program MUST include implementations for the functions 
+corresponding to each function prototype listed here:
+
+	int insert_to_array(int, int *, int, int);
+
+		This function inserts the supplied value into the specified array
+		at the location specified (assumed to represent the next available
+		insertion point into the array).  If the array is full, no insertion
+		is performed.
+
+		Returns: The next available insertion point into the array
+		Parameters: 1.) the value to be inserted into the array
+					2.) the array to insert the value to
+					3.) the next available insertion point
+					4.) the max number of elements in the array
+
+	void build_max_heap(int *, int, int);
+
+		This function converts an unordered list of data into a max heap.
+
+		Returns: Nothing
+		Parameters: 1.) the array to be converted into a max heap
+					2.) the last element in the array
+					3.) the maximum size of the array
+
+	void heap_sort(int *, int, int);
+
+		This function performs a heap sort on the array provided.
+
+		Returns: Nothing
+		Parameters: 1.) the array to be sorted
+					2.) the last element in the array
+					3.) the maximum size of the array
+
+	void max_heapify(int *, int, int);
+
+		This function performs the heapify algorithm on the max heap provided.
+		The function iterates down the sub tree from the node provided until the
+		max heap condition is restored in that sub-tree.
+
+		Returns: Nothing
+		Parameters: 1.) the input array
+					2.) the parent node of the sub-tree in question
+					3.) the maximum size of the array
+
+	void insert_to_binary_tree(struct Node **, struct Node *);
+
+		This function inserts a node into the Binary Tree.
+
+		Returns: Nothing
+		Parameters: 1.) the address of the Tree's head pointer
+					2.) the node to be inserted
+
+	void tree_sort(int *, struct Node *);
+
+		This function performs a Tree Sort on the binary tree pointed to by
+		the head pointer provided.  The result is stored into the array
+		provided.
+
+		Returns: Nothing
+		Parameters: 1.) the array to store the sorted the data
+					2.) the Tree's head pointer
+
+Output:
+Your program will read the input from the file and store each value, as
+an integer, into the binary tree and into the array that will ultimately
+become your heap.  After completion of this process, your program will
+print the entire contents of the tree as well as the contents of the
+array prefixed with the label "Unsorted:", as shown below.  Next the
+entire array will be printed as your program iterates through the steps
+required to build the initial Max Heap. The print function should be called
+after the completion of each iteration so as to show the steps of
+transformation they array is undergoing in the process.  Once the Max Heap
+has been initialized, you will once again print the array using the label
+"Max Heap:".  After each iteration of your heap sort, you will print the
+array again with the lable "Sorting:" so that you can see the evolution
+of the data as the algorithm is performed.  Finally, you will print the
+sorted Heap and the output of your Tree Sort with the labels shown below.
+
+	Example Input:
+
+		100,50,150,25,175,75,125
+
+	Expected Output:
+
+	                                                [100]
+
+	                [ 50]                                                           [150]
+
+	[ 25]                           [ 75]                           [125]                           [175]
+
+	Unsorted:[---][100][ 50][150][ 25][175][ 75][125][---][---][---][---][---][---][---][---]
+
+	Building MH:[---][100][ 50][150][ 25][175][ 75][125][---][---][---][---][---][---][---][---]
+	Building MH:[---][100][ 50][150][ 25][175][ 75][125][---][---][---][---][---][---][---][---]
+	Building MH:[---][100][175][150][ 25][ 50][ 75][125][---][---][---][---][---][---][---][---]
+
+	Max Heap:[---][175][100][150][ 25][ 50][ 75][125][---][---][---][---][---][---][---][---]
+
+	Sorting:[---][175][100][150][ 25][ 50][ 75][125][---][---][---][---][---][---][---][---]
+	Sorting:[---][150][100][125][ 25][ 50][ 75][175][---][---][---][---][---][---][---][---]
+	Sorting:[---][125][100][ 75][ 25][ 50][150][175][---][---][---][---][---][---][---][---]
+	Sorting:[---][100][ 50][ 75][ 25][125][150][175][---][---][---][---][---][---][---][---]
+	Sorting:[---][ 75][ 50][ 25][100][125][150][175][---][---][---][---][---][---][---][---]
+	Sorting:[---][ 50][ 25][ 75][100][125][150][175][---][---][---][---][---][---][---][---]
+	Sorting:[---][ 25][ 50][ 75][100][125][150][175][---][---][---][---][---][---][---][---]
+
+	Sorted Heap:[---][ 25][ 50][ 75][100][125][150][175][---][---][---][---][---][---][---][---]
+
+	Sorted Tree:[ 25][ 50][ 75][100][125][150][175]
+
+Error Handling:
+1.) your program must print a meaningful error message and exit with
+	a scenario-specific error code, if the file does not exist.
+2.) your program must print a meaningful error message and exit with
+	a scenario-specific error code, if the file is empty.
+
+Assumptions:
+1.) the input file will be called "sort_values.txt"
+2.) all data will be comma-delimited and will be presented in a single line within the file
+3.) there will be no numbers < 1 present in the file.
+
+Hint:
+Defining the following Macros will prove to be very useful:
+
+	#define LEFT_CHILD(X) (2 * (X))
+	#define RIGHT_CHILD(X) ((2 * (X)) + 1)
+	#define PARENT(X) ((X) / 2)
+
+
