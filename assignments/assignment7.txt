@@ -1,0 +1,212 @@
+CSC202 - Fall 2019 - Patrick G. Stephen (Instructor)
+
+Assignment 7 - AVL Trees
+
+Due: Wednesday, December 4th 2019 @ Midnight (i.e. "Tuesday Night")
+
+Overview:
+The purpose of this assignment is to maintain an AVL Tree alongside a
+Binary Search Tree and compare their properties using the same set of
+data elements.
+
+In this assignment you will read an unknown number of integers from an
+unknown number of lists.  Each list is represented in a file as a
+comma-delimited list of values.  There is one such list per line
+in the file with an unknown number of lines.
+
+Your program should read each list of values from the file, convert from 
+the string representation to an integer representation, and then store the
+integer values in both a binary tree, as well as an AVL tree.  The AVL
+property must always be maintained throughout the process of storing the data.
+Some data points will be captured for each tree during the entire process and
+printed after processing each list.  Your program should continue processing
+each list in the file until no additional lists are found.  There is one list
+per line.
+
+Print utilities are provided in the tree.h and ds_utils.h header files so that
+you can visualize the data structures as you build them.  A summary will be
+printed after processing each list.
+
+Assignment Submission:
+You will submit your assignment using GitHub Classroom.  When you are
+finished and want to make your final submission, use the checkin
+comment "FINAL SUBMISSION":
+
+	git add .
+	git commit -m "FINAL SUBMISSION"
+	git push origin master
+
+Any submission not having this comment will be assumed to be a
+work-in-progress and therefore will be ignored.  This implies that you
+must make your final push with this commit comment before the deadline.
+
+Input:
+The input will be formatted in the following way. NOTE that there will
+not be any unexpected characters present on the record.
+
+	100,150,275,225
+	1000,900,800,700,600,500,400,300,200,100,50,25,12,10
+	500,400,600,450,475,200,470,465,420,500,501,223,1,90
+
+Implementation:
+Your program MUST include the custom header files called "tree.h" and 
+"ds_utils.h". These will make the following structure declaration and
+functions available respectively:
+
+	Binary Tree Node Structure:
+	---------------------------
+
+	struct Node {
+		struct Node * left_tree;
+		struct Node * right_tree;
+		int value;
+	};
+
+	Functions:
+	----------
+
+	void print_tree(struct Node ** head);
+
+		This function prints a visual representation of the binary 
+		tree supplied
+
+		Returns: Nothing
+		Parameters: 1.) the address of the Tree's head pointer
+
+	struct Node * get_new_node(int value);
+
+		This function returns a new, initialized Node to be inserted 
+		into the binary tree
+
+		Returns: The address of the newly allocated Node
+		Parameters: 1.) The value to be populated into the new Node.
+
+	void insert_to_binary_tree(struct Node **, struct Node *);
+
+		This function inserts a node into the binary tree
+
+		Returns: Nothing
+		Parameters: 1.) the head pointer to the tree.
+					2.) the node to insert
+
+	int get_balance_factor(struct Node *);
+
+		This function returns the balance factor of the tree
+
+		Returns: The balance factor
+		Parameters: 1.) the head pointer to the tree.
+
+	int tree_height(struct Node *);
+
+		This function returns the height of the tree (the
+		longest path to any leaf node)
+
+		Returns: The tree height
+		Parameters: 1.) the head pointer to the tree.
+
+
+Your program MUST include implementations for the functions 
+corresponding to each function prototype listed here:
+
+
+	void apply_left_rotation(struct Node **);
+
+		This function applies the "left rotation" to the AVL tree pointed
+		to by the head pointer provided.  It also ensures that the head
+		is pointing to the new root node after rotation.
+
+		Returns: Nothing
+		Parameters: 1.) the address of the head pointer
+
+	void apply_right_rotation(struct Node **);
+
+		This function applies the "right rotation" to the AVL tree pointed
+		to by the head pointer provided.  It also ensures that the head
+		is pointing to the new root node after rotation.
+
+		Returns: Nothing
+		Parameters: 1.) the address of the head pointer
+
+	void apply_double_left_rotation(struct Node **);
+
+		This function applies the "double left rotation" to the AVL tree
+		pointed to by the head pointer provided.  It also ensures that 
+		the head is pointing to the new root node after rotation.
+
+		Returns: Nothing
+		Parameters: 1.) the address of the head pointer
+
+
+	void apply_double_right_rotation(struct Node **);
+
+		This function applies the "double right rotation" to the AVL tree
+		pointed to by the head pointer provided.  It also ensures that 
+		the head is pointing to the new root node after rotation.
+
+		Returns: Nothing
+		Parameters: 1.) the address of the head pointer		
+
+
+Output:
+Your program will use the tree_height() and get_balance_factor() functions
+to determine the height and balance factor of each tree after insertion of
+a new node.  The values should be tracked over the life of each dataset (each
+comma-delimited list of values) and should be summarized after the record has
+been fully processed. The procedure will be repeated for each record in the file.
+In the case of the AVL tree, the values for Tree Height and Balance Factor should
+reflect the tree in its state *after* any rotations have been performed.  Once
+each record has been processed, the summary information is printed as shown below.
+NOTE: the "Most Out of Balance" number reflects the balance factor having the
+largest magnitude at any point after having inserted a node to the tree. You will
+need to use the abs() function (for the absolute value computation) found in 
+math.h (#include <math.h>) to have access to it.
+
+	Example Input:
+
+		100,150,275,225
+		1000,900,800,700,600,500,400,300,200,100,50,25,12,10
+		500,400,600,450,475,200,470,465,420,500,501,223,1,90
+
+	Expected Output:
+
+		Data Summary ( 4 data points):
+		=============================
+
+		Binary Tree:
+		Most Out of Balance -3
+		Max Tree Depth is 4
+
+		AVL Tree:
+		Most Out of Balance is -1
+		Max Tree Depth is 3
+
+		Data Summary (14 data points):
+		=============================
+
+		Binary Tree:
+		Most Out of Balance 13
+		Max Tree Depth is 14
+
+		AVL Tree:
+		Most Out of Balance is 1
+		Max Tree Depth is 8
+
+		Data Summary (14 data points):
+		=============================
+
+		Binary Tree:
+		Most Out of Balance 4
+		Max Tree Depth is 6
+
+		AVL Tree:
+		Most Out of Balance is 1
+		Max Tree Depth is 6
+
+Error Handling:
+1.) your program must print a meaningful error message and exit with
+	a scenario-specific error code, if the file does not exist.
+
+Assumptions:
+1.) the input file will be called "avl_tree.txt"
+2.) there will be no numbers < 1 present in the file.
+
